@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "WaveNest",
+  "version": "0.1.0",
+  "description": "A radio and podcast companion for Chrome with Ethiopia-first picks, international hits, and an in-extension player.",
+  "minimum_chrome_version": "116",
+  "permissions": ["storage", "offscreen", "sidePanel", "windows"],
+  "host_permissions": [
+    "https://*.api.radio-browser.info/*",
+    "https://anchor.fm/*",
+    "https://podcasts.files.bbci.co.uk/*",
+    "https://feeds.npr.org/*",
+    "https://feeds.megaphone.fm/*",
+    "https://feed.syntax.fm/*",
+    "https://feeds.simplecast.com/*",
+    "https://rss2.flightcast.com/*",
+    "https://www.omnycontent.com/*",
+    "https://feeds.acast.com/*",
+    "https://feeds.captivate.fm/*",
+    "https://as-hls-ww-live.akamaized.net/*",
+    "https://media-ice.musicradio.com/*",
+    "https://stream-al.hellorayo.co.uk/*",
+    "https://learningenglish.voanews.com/*"
+  ],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "WaveNest",
+    "default_popup": "popup.html"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "commands": {
+    "open-side-panel": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "Open the WaveNest side panel"
+    }
+  }
+}
