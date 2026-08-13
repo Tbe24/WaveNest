@@ -49,12 +49,12 @@ export function SubcategoryChips(props: SubcategoryChipsProps) {
   return (
     <div className="subcategory-block">
       <span>More specific</span>
-      <div className="chip-row">
-        <button className={`chip ${props.selected === 'all' ? 'is-selected' : ''}`} onClick={() => props.onSelect('all')} type="button">
+      <div className="chip-row" role="group" aria-label={`${props.category} subcategory filter`}>
+        <button className={`chip ${props.selected === 'all' ? 'is-selected' : ''}`} onClick={() => props.onSelect('all')} aria-pressed={props.selected === 'all'} type="button">
           All {props.category}
         </button>
         {options.map((option) => (
-          <button key={option.value} className={`chip ${props.selected === option.value ? 'is-selected' : ''}`} onClick={() => props.onSelect(option.value)} type="button">
+          <button key={option.value} className={`chip ${props.selected === option.value ? 'is-selected' : ''}`} onClick={() => props.onSelect(option.value)} aria-pressed={props.selected === option.value} type="button">
             {option.label}
           </button>
         ))}

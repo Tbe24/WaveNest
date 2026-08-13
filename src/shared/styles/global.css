@@ -228,7 +228,9 @@ select {
 }
 
 button:focus-visible,
-input:focus-visible {
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
   outline: 3px solid rgba(75, 195, 200, 0.55);
   outline-offset: 2px;
 }
@@ -516,6 +518,11 @@ button:disabled {
   min-height: auto;
 }
 
+.load-more-button {
+  align-self: center;
+  min-width: 220px;
+}
+
 .toggle-group {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -780,5 +787,16 @@ button:disabled {
 
   .source-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

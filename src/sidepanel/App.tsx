@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CategoryChips, type BrowseCategory } from '../shared/components/CategoryChips';
 import { NowPlayingCard } from '../shared/components/NowPlayingCard';
 import { MarketToggle } from '../shared/components/MarketToggle';
@@ -9,12 +9,15 @@ import { useRuntimeState } from '../shared/hooks/useRuntimeState';
 import type { MarketFilter } from '../shared/types';
 import { matchesMarketFilter, matchesScopeFilter, matchesSubcategory } from '../shared/utils';
 
+const RESULTS_PAGE_SIZE = 60;
+
 export function App() {
   const runtime = useRuntimeState();
   const [categoryFilter, setCategoryFilter] = useState<BrowseCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [marketFilter, setMarketFilter] = useState<MarketFilter>('all');
   const [subcategoryFilter, setSubcategoryFilter] = useState<SubcategoryFilter>('all');
+  const [visibleCount, setVisibleCount] = useState(RESULTS_PAGE_SIZE);
 
   const normalizedQuery = searchQuery.trim().toLowerCase();
   const scopeFilter = runtime.state?.settings.scopeFilter ?? 'all';
@@ -41,6 +44,11 @@ export function App() {
   }) ?? [];
   // Favorites remain pinned regardless of the active browse filters.
   const favoriteItems = runtime.state?.catalog.sources.filter((source) => runtime.state?.favorites.includes(source.id)) ?? [];
+  const visibleBrowseItems = browseItems.slice(0, visibleCount);
+
+  useEffect(() => {
+    setVisibleCount(RESULTS_PAGE_SIZE);
+  }, [scopeFilter, marketFilter, categoryFilter, subcategoryFilter, normalizedQuery]);
 
   return (
     <main className="panel-shell">
@@ -132,6 +140,7 @@ export function App() {
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
             placeholder="Search stations, podcasts, language..."
+            aria-label="Search stations and podcasts"
             type="search"
           />
           {searchQuery ? (
@@ -154,13 +163,23 @@ export function App() {
 
       <SourceSection
         title={searchQuery ? `Results for “${searchQuery}”` : marketFilter === 'ET' ? 'Ethiopia' : marketFilter === 'US' ? 'USA Popular' : marketFilter === 'GB' ? 'UK Popular' : scopeFilter === 'local' ? 'Local Audio' : scopeFilter === 'english' ? 'English Audio' : 'All Audio'}
-        items={browseItems}
+        items={visibleBrowseItems}
         currentSourceId={runtime.state?.playback.currentSourceId}
         favorites={runtime.state?.favorites ?? []}
         failures={runtime.state?.failures ?? {}}
         onSelect={(source, queueIds) => void runtime.loadSource(source, queueIds, true)}
         onToggleFavorite={(sourceId) => void runtime.toggleFavorite(sourceId)}
       />
+
+      {visibleBrowseItems.length < browseItems.length ? (
+        <button
+          className="ghost-button load-more-button"
+          onClick={() => setVisibleCount((count) => count + RESULTS_PAGE_SIZE)}
+          type="button"
+        >
+          Show more ({browseItems.length - visibleBrowseItems.length} remaining)
+        </button>
+      ) : null}
 
       {!runtime.loading && browseItems.length === 0 ? (
         <section className="empty-state">

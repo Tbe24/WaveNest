@@ -19,6 +19,21 @@ npm run test
 npm run build
 ```
 
+On Windows PowerShell, use `npm.cmd` if the system execution policy blocks `npm.ps1`:
+
+```powershell
+npm.cmd run test
+npm.cmd run build
+```
+
+## Production package
+
+```powershell
+npm.cmd run package
+```
+
+This runs the strict TypeScript build and creates `release/WaveNest-<version>.zip`. The ZIP contains the contents of `dist` directly, so `manifest.json` is at the archive root as required by the Chrome Web Store.
+
 ## Load In Chrome
 
 1. Build the extension with `npm run build`
@@ -26,3 +41,5 @@ npm run build
 3. Enable `Developer mode`
 4. Choose `Load unpacked`
 5. Select the `dist` folder
+
+See [STORE_LISTING.md](STORE_LISTING.md) for Chrome Web Store copy, permission justifications, artwork requirements, and the submission checklist. See [PRIVACY.md](PRIVACY.md) for the public privacy disclosure.

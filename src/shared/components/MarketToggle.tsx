@@ -14,12 +14,13 @@ const markets: Array<{ value: MarketFilter; label: string }> = [
 
 export function MarketToggle(props: MarketToggleProps) {
   return (
-    <div className="market-row" aria-label="Region filter">
+    <div className="market-row" role="group" aria-label="Region filter">
       {markets.map((market) => (
         <button
           key={market.value}
           className={`market-button ${props.value === market.value ? 'is-selected' : ''}`}
           onClick={() => props.onChange(market.value)}
+          aria-pressed={props.value === market.value}
           type="button"
         >
           {market.label}

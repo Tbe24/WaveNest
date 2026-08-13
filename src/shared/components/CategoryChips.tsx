@@ -10,10 +10,11 @@ interface CategoryChipsProps {
 
 export function CategoryChips(props: CategoryChipsProps) {
   return (
-    <div className="chip-row">
+    <div className="chip-row" role="group" aria-label="Category filter">
       <button
         className={`chip ${props.selected === 'all' ? 'is-selected' : ''}`}
         onClick={() => props.onSelect('all')}
+        aria-pressed={props.selected === 'all'}
         type="button"
       >
         All
@@ -21,6 +22,7 @@ export function CategoryChips(props: CategoryChipsProps) {
       <button
         className={`chip ${props.selected === 'radio' ? 'is-selected' : ''}`}
         onClick={() => props.onSelect('radio')}
+        aria-pressed={props.selected === 'radio'}
         type="button"
       >
         Radio
@@ -30,6 +32,7 @@ export function CategoryChips(props: CategoryChipsProps) {
           key={category}
           className={`chip ${props.selected === category ? 'is-selected' : ''}`}
           onClick={() => props.onSelect(category)}
+          aria-pressed={props.selected === category}
           type="button"
         >
           {category === 'podcasts' ? 'Podcasts' : category[0].toUpperCase() + category.slice(1)}

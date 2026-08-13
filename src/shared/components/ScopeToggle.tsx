@@ -13,13 +13,13 @@ export function ScopeToggle(props: ScopeToggleProps) {
   ];
 
   return (
-    <div className="toggle-group" role="tablist" aria-label="Scope filter">
+    <div className="toggle-group" role="group" aria-label="Language and location filter">
       {options.map((option) => (
         <button
           key={option.value}
           className={`toggle-group__button ${props.value === option.value ? 'is-selected' : ''}`}
           onClick={() => props.onChange(option.value)}
-          aria-selected={props.value === option.value}
+          aria-pressed={props.value === option.value}
           type="button"
         >
           <strong>{option.label}</strong>

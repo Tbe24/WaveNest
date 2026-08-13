@@ -1,4 +1,6 @@
-import Hls from 'hls.js';
+// The light build keeps core HLS audio playback while omitting features such
+// as subtitles and alternate-video handling that an audio-only player doesn't use.
+import Hls from 'hls.js/light';
 import type { AudioSource, PlaybackCommand, PlaybackState, RuntimeMessage } from '../shared/types';
 
 const audio = new Audio();
